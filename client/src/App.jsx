@@ -327,6 +327,8 @@ function ConfigPanel() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
 
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
   useEffect(() => {
     if (config) setFormData(config);
   }, [config]);
@@ -352,6 +354,32 @@ function ConfigPanel() {
       }
     } catch (err) {
       setMessage({ type: 'error', text: err.message });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleUpdateSalarios = async () => {
+    setShowConfirmModal(false);
+    setSaving(true);
+    setMessage(null);
+
+    try {
+      const res = await fetch(`${API_BASE}/empleados/actualizar-minimo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nuevoSalarioMinimo: formData.smmlv })
+      });
+      const json = await res.json();
+
+      if (json.success) {
+        setMessage({ type: 'success', text: `✅ ${json.message}` });
+        // También podríamos recargar para asegurar
+      } else {
+        setMessage({ type: 'error', text: json.error?.message || 'Error al actualizar salarios' });
+      }
+    } catch (err) {
+      setMessage({ type: 'error', text: `Error: ${err.message}` });
     } finally {
       setSaving(false);
     }
@@ -436,33 +464,44 @@ function ConfigPanel() {
         </button>
 
         <button
-          onClick={async () => {
-            if (!confirm(`¿Actualizar el salario base de todos los empleados que ganen menos de ${formatCurrency(formData.smmlv)}?`)) return;
-            setSaving(true);
-            try {
-              const res = await fetch(`${API_BASE}/empleados/actualizar-minimo`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nuevoSalarioMinimo: formData.smmlv })
-              });
-              const json = await res.json();
-              if (json.success) {
-                alert(`✅ ${json.message}`);
-              } else {
-                alert(`❌ ${json.error?.message}`);
-              }
-            } catch (err) {
-              alert(`❌ Error: ${err.message}`);
-            } finally {
-              setSaving(false);
-            }
-          }}
+          onClick={() => setShowConfirmModal(true)}
           disabled={saving}
           className="btn btn-secondary"
         >
           ⬆️ Actualizar Salarios Empleados
         </button>
       </div>
+
+      {/* Modal de Confirmación */}
+      {showConfirmModal && (
+        <div className="modal-overlay" onClick={() => setShowConfirmModal(false)}>
+          <div className="modal" style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>⚠️ Confirmar Actualización Masiva</h3>
+              <button onClick={() => setShowConfirmModal(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <p>Esta acción buscará a <strong>todos los empleados activos</strong> cuyo salario base sea inferior a:</p>
+              <h2 style={{ textAlign: 'center', margin: '1.5rem 0', color: 'var(--color-primary)' }}>
+                {formatCurrency(formData.smmlv)}
+              </h2>
+              <p>Y actualizará su salario base a este nuevo valor.</p>
+              <div className="info-box" style={{ marginTop: '1rem' }}>
+                <span className="info-icon">ℹ️</span>
+                <p>Esta acción no se puede deshacer automáticamente.</p>
+              </div>
+              <div className="actions-row" style={{ justifyContent: 'flex-end' }}>
+                <button className="btn btn-secondary" onClick={() => setShowConfirmModal(false)}>
+                  Cancelar
+                </button>
+                <button className="btn btn-primary" onClick={handleUpdateSalarios}>
+                  ✅ Confirmar Actualización
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
