@@ -119,7 +119,15 @@ function calcularNominaSemanal(empleado, novedades, config) {
         throw error;
     }
 
-    const { salarioBase, auxTransporte, nombres, cedula } = empleado;
+    // LÓGICA DE SALARIO MÍNIMO AUTOMÁTICO
+    // Si el empleado tiene marcado "esSalarioMinimo", ignoramos su salarioBase almacenado
+    // y usamos el de la configuración global.
+    let salarioBaseReal = empleado.salarioBase;
+    if (empleado.esSalarioMinimo) {
+        salarioBaseReal = config.smmlv;
+    }
+
+    const { auxTransporte, nombres, cedula } = empleado;
     const {
         diasLaborados = 7,
         horasExtraDiurna = 0,
@@ -133,8 +141,8 @@ function calcularNominaSemanal(empleado, novedades, config) {
         prestamo = 0
     } = novedades;
 
-    // Calcular valores base
-    const base = calcularValoresBase(salarioBase, config);
+    // Calcular valores base con el salario real
+    const base = calcularValoresBase(salarioBaseReal, config);
 
     // 1. DEVENGADOS
     // Salario proporcional a días trabajados

@@ -153,12 +153,36 @@ function NavButton({ active, onClick, icon, label }) {
 // PANEL DE EMPLEADOS
 // ========================
 function EmpleadosPanel() {
+  const { config } = useContext(ConfigContext);
   const { data: empleados, loading, error, refetch } = useApi('/empleados');
   const [formData, setFormData] = useState({
-    cedula: '', nombres: '', cuenta: '', tipoCuenta: 'AHORROS', salarioBase: 1000000
+    cedula: '',
+    nombres: '',
+    cuenta: '',
+    tipoCuenta: 'AHORROS',
+    salarioBase: 0,
+    esSalarioMinimo: false,
+    cargo: '',
+    fechaIngreso: '',
+    eps: '',
+    fondoPension: ''
   });
   const [isEditing, setIsEditing] = useState(false);
   const [formError, setFormError] = useState(null);
+
+  // Inicializar salario base con el mínimo si existe config
+  useEffect(() => {
+    if (!isEditing && config && formData.salarioBase === 0) {
+      setFormData(prev => ({ ...prev, salarioBase: config.smmlv }));
+    }
+  }, [config, isEditing]);
+
+  // Actualizar salario si se marca la casilla de salario mínimo
+  useEffect(() => {
+    if (formData.esSalarioMinimo && config) {
+      setFormData(prev => ({ ...prev, salarioBase: config.smmlv }));
+    }
+  }, [formData.esSalarioMinimo, config]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -178,8 +202,7 @@ function EmpleadosPanel() {
       const json = await res.json();
 
       if (json.success) {
-        setFormData({ cedula: '', nombres: '', cuenta: '', tipoCuenta: 'AHORROS', salarioBase: 1000000 });
-        setIsEditing(false);
+        resetForm();
         refetch();
       } else {
         setFormError(json.error?.message || 'Error al guardar');
@@ -189,8 +212,29 @@ function EmpleadosPanel() {
     }
   };
 
+  const resetForm = () => {
+    setFormData({
+      cedula: '',
+      nombres: '',
+      cuenta: '',
+      tipoCuenta: 'AHORROS',
+      salarioBase: config ? config.smmlv : 1000000,
+      esSalarioMinimo: false,
+      cargo: '',
+      fechaIngreso: '',
+      eps: '',
+      fondoPension: ''
+    });
+    setIsEditing(false);
+  };
+
   const handleEdit = (emp) => {
-    setFormData(emp);
+    // Si el salario coincide con el mínimo actual, podríamos sugerir marcar la casilla,
+    // pero mejor respetamos el valor guardado en la BD (esSalarioMinimo)
+    setFormData({
+      ...emp,
+      esSalarioMinimo: emp.esSalarioMinimo === true // Asegurar booleano
+    });
     setIsEditing(true);
   };
 
@@ -235,18 +279,58 @@ function EmpleadosPanel() {
             onChange={e => setFormData({ ...formData, nombres: e.target.value })}
           />
         </div>
+
+        {/* Sección Cargo y Fecha */}
         <div className="form-group">
-          <label>Salario Base</label>
+          <label>Cargo</label>
           <input
-            required
-            type="number"
-            placeholder="1000000"
-            value={formData.salarioBase}
-            onChange={e => setFormData({ ...formData, salarioBase: Number(e.target.value) })}
+            type="text"
+            placeholder="EJ. OPERARIO"
+            value={formData.cargo}
+            onChange={e => setFormData({ ...formData, cargo: e.target.value })}
           />
         </div>
         <div className="form-group">
-          <label>Tipo Cuenta</label>
+          <label>Fecha Ingreso</label>
+          <input
+            type="date"
+            value={formData.fechaIngreso}
+            onChange={e => setFormData({ ...formData, fechaIngreso: e.target.value })}
+          />
+        </div>
+
+        {/* Sección Salario */}
+        <div className="form-group">
+          <label>Salario Base</label>
+          <div className="input-prefix">
+            <span>$</span>
+            <input
+              required
+              type="number"
+              placeholder="1000000"
+              value={formData.salarioBase}
+              onChange={e => setFormData({ ...formData, salarioBase: Number(e.target.value) })}
+              disabled={formData.esSalarioMinimo}
+              className={formData.esSalarioMinimo ? 'input-locked' : ''}
+            />
+          </div>
+          <div className="checkbox-wrapper" style={{ marginTop: '0.5rem' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={formData.esSalarioMinimo}
+                onChange={e => setFormData({ ...formData, esSalarioMinimo: e.target.checked })}
+              />
+              <span style={{ fontSize: '0.8rem', color: 'var(--color-primary)' }}>
+                Vincular a SMMLV ({config ? formatCurrency(config.smmlv) : '...'})
+              </span>
+            </label>
+          </div>
+        </div>
+
+        {/* Sección Pago */}
+        <div className="form-group">
+          <label>Tipo Pago</label>
           <select
             value={formData.tipoCuenta}
             onChange={e => setFormData({ ...formData, tipoCuenta: e.target.value })}
@@ -257,7 +341,7 @@ function EmpleadosPanel() {
           </select>
         </div>
         <div className="form-group">
-          <label>Cuenta</label>
+          <label>Cuenta Bancaria</label>
           <input
             type="text"
             placeholder="Número de cuenta"
@@ -265,16 +349,35 @@ function EmpleadosPanel() {
             onChange={e => setFormData({ ...formData, cuenta: e.target.value })}
           />
         </div>
-        <div className="form-group form-actions">
-          <button type="submit" className="btn btn-primary">
-            {isEditing ? '💾 Actualizar' : '➕ Crear'}
+
+        {/* Sección Seguridad Social */}
+        <div className="form-group">
+          <label>EPS</label>
+          <input
+            type="text"
+            placeholder="EJ. SURA"
+            value={formData.eps}
+            onChange={e => setFormData({ ...formData, eps: e.target.value })}
+          />
+        </div>
+        <div className="form-group">
+          <label>Fondo Pensión</label>
+          <input
+            type="text"
+            placeholder="EJ. PORVENIR"
+            value={formData.fondoPension}
+            onChange={e => setFormData({ ...formData, fondoPension: e.target.value })}
+          />
+        </div>
+
+        <div className="form-group form-actions span-2" style={{ justifyContent: 'flex-end' }}>
+          <button type="submit" className="btn btn-primary btn-large">
+            {isEditing ? '💾 Actualizar Empleado' : '➕ Crear Empleado'}
           </button>
+
           {isEditing && (
-            <button type="button" className="btn btn-secondary" onClick={() => {
-              setFormData({ cedula: '', nombres: '', cuenta: '', tipoCuenta: 'AHORROS', salarioBase: 1000000 });
-              setIsEditing(false);
-            }}>
-              Cancelar
+            <button type="button" className="btn btn-secondary" onClick={resetForm}>
+              Cancelar Edición
             </button>
           )}
         </div>

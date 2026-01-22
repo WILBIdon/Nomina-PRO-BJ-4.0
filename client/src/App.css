@@ -939,3 +939,19 @@ tfoot td {
     box-shadow: var(--shadow-lg);
   }
 }
+
+/* ========================
+   ESTILOS ADICIONALES
+   ======================== */
+
+.checkbox-wrapper input[type="checkbox"] {
+  accent-color: var(--color-accent);
+  width: 1rem;
+  height: 1rem;
+}
+
+.input-locked {
+  background-color: #f1f5f9 !important;
+  color: var(--color-text-light);
+  cursor: not-allowed;
+}

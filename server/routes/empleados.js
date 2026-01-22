@@ -118,6 +118,12 @@ router.post('/', asyncHandler(async (req, res) => {
         salarioBase: Number(salarioBase) || 1000000,
         auxTransporte: Number(auxTransporte) || 117172,
         activo: true,
+        // Nuevos campos
+        esSalarioMinimo: req.body.esSalarioMinimo === true || req.body.esSalarioMinimo === 'true',
+        cargo: (req.body.cargo || 'OPERARIO').toUpperCase(),
+        fechaIngreso: req.body.fechaIngreso || new Date().toISOString().split('T')[0],
+        eps: (req.body.eps || '').toUpperCase(),
+        fondoPension: (req.body.fondoPension || '').toUpperCase(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     };
@@ -166,6 +172,15 @@ router.put('/:cedula', asyncHandler(async (req, res) => {
     }
     if (updates.tipoCuenta) {
         data.empleados[index].tipoCuenta = updates.tipoCuenta.toUpperCase();
+    }
+    // Normalizar nuevos campos
+    if (updates.cargo) data.empleados[index].cargo = updates.cargo.toUpperCase();
+    if (updates.eps) data.empleados[index].eps = updates.eps.toUpperCase();
+    if (updates.fondoPension) data.empleados[index].fondoPension = updates.fondoPension.toUpperCase();
+
+    // Asegurar booleano para esSalarioMinimo se maneja en el spread initial pero podemos forzarlo si viene como string
+    if (updates.esSalarioMinimo !== undefined) {
+        data.empleados[index].esSalarioMinimo = updates.esSalarioMinimo === true || updates.esSalarioMinimo === 'true';
     }
 
     await guardarEmpleados(data);
