@@ -116,6 +116,9 @@ export default function App() {
               icon="⚙️"
               label="Configuración"
             />
+            {/* Calculadora Widget */}
+            <div className="nav-spacer"></div>
+            <SideCalculator />
           </nav>
 
           {/* PANELES */}
@@ -910,6 +913,85 @@ function HistorialPanel() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ========================
+// CALCULADORA FLOTANTE
+// ========================
+function SideCalculator() {
+  const [display, setDisplay] = useState('');
+  const [isOpen, setIsOpen] = useState(true);
+
+  const append = (val) => setDisplay(prev => prev + val);
+  const clear = () => setDisplay('');
+  const backspace = () => setDisplay(prev => prev.length > 0 ? prev.slice(0, -1) : '');
+
+  const calculate = () => {
+    try {
+      if (!display) return;
+      // Validar seguridad básica: solo permitir números y operadores
+      if (/[^0-9+\-*/().]/.test(display)) {
+        setDisplay('Error');
+        return;
+      }
+      // eslint-disable-next-line no-new-func
+      const result = Function('"use strict";return (' + display + ')')();
+
+      if (!isFinite(result) || isNaN(result)) {
+        setDisplay('Error');
+      } else {
+        // Redondear a 2 decimales si es necesario para evitar 0.30000000004
+        const rounded = Math.round(result * 100000000) / 100000000;
+        setDisplay(String(rounded));
+      }
+    } catch (e) {
+      setDisplay('Error');
+      setTimeout(clear, 1000);
+    }
+  };
+
+  if (!isOpen) {
+    return (
+      <button onClick={() => setIsOpen(true)} className="nav-button calculator-toggle">
+        <span className="nav-icon">🧮</span>
+        <span className="nav-label">Calculadora</span>
+      </button>
+    );
+  }
+
+  return (
+    <div className="calculator-widget">
+      <div className="calc-header">
+        <span className="calc-title">🔢 Calculadora</span>
+        <button onClick={() => setIsOpen(false)} className="btn-icon-small" title="Minimizar">_</button>
+      </div>
+      <input type="text" value={display} readOnly className="calc-display" placeholder="0" />
+      <div className="calc-grid">
+        <button onClick={clear} className="calc-btn danger">C</button>
+        <button onClick={backspace} className="calc-btn">⌫</button>
+        <button onClick={() => append('/')} className="calc-btn operator">÷</button>
+        <button onClick={() => append('*')} className="calc-btn operator">×</button>
+
+        <button onClick={() => append('7')} className="calc-btn">7</button>
+        <button onClick={() => append('8')} className="calc-btn">8</button>
+        <button onClick={() => append('9')} className="calc-btn">9</button>
+        <button onClick={() => append('-')} className="calc-btn operator">-</button>
+
+        <button onClick={() => append('4')} className="calc-btn">4</button>
+        <button onClick={() => append('5')} className="calc-btn">5</button>
+        <button onClick={() => append('6')} className="calc-btn">6</button>
+        <button onClick={() => append('+')} className="calc-btn operator">+</button>
+
+        <button onClick={() => append('1')} className="calc-btn">1</button>
+        <button onClick={() => append('2')} className="calc-btn">2</button>
+        <button onClick={() => append('3')} className="calc-btn">3</button>
+        <button onClick={calculate} className="calc-btn equal">=</button>
+
+        <button onClick={() => append('0')} className="calc-btn zero">0</button>
+        <button onClick={() => append('.')} className="calc-btn">.</button>
+      </div>
     </div>
   );
 }
