@@ -497,7 +497,7 @@ function ConfigPanel() {
 
   return (
     <div className="panel config-panel">
-      <h2>⚙️ Variables Legales (2022)</h2>
+      <h2>⚙️ Variables Legales (2026)</h2>
 
       <div className="info-box">
         <span className="info-icon">ℹ️</span>
