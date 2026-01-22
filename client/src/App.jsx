@@ -4,7 +4,8 @@ import './App.css';
 // ========================
 // CONFIGURACIÓN API
 // ========================
-const API_BASE = 'http://localhost:3000/api';
+// En producción usa rutas relativas, en desarrollo usa localhost:3000
+const API_BASE = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api';
 
 // ========================
 // UTILIDADES
