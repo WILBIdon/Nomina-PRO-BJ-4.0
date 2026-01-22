@@ -149,7 +149,7 @@ function calcularNominaSemanal(empleado, novedades, config) {
     const salarioDevengado = base.valorDia * diasLaborados;
 
     // Auxilio de transporte (solo si gana <= 2 SMMLV)
-    const tieneAuxilio = salarioBase <= (config.smmlv * 2);
+    const tieneAuxilio = salarioBaseReal <= (config.smmlv * 2);
     const auxDevengado = tieneAuxilio ? base.auxDia * diasLaborados : 0;
 
     // Horas extras y recargos
@@ -202,7 +202,7 @@ function calcularNominaSemanal(empleado, novedades, config) {
 
         // Parámetros
         diasLaborados,
-        salarioBase,
+        salarioBase: salarioBaseReal,
         auxTransporte: tieneAuxilio ? auxTransporte : 0,
 
         // Devengados
