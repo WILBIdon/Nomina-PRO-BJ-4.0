@@ -571,7 +571,8 @@ function ConfigPanel() {
 
       if (json.success) {
         setMessage({ type: 'success', text: '✅ Valores restablecidos a Normativa 2026' });
-        refetch(); // Recargar valores en el formulario
+        setFormData(json.data); // Actualizar formulario inmediatamente
+        refetch(); // Recargar valores en el contexto
       } else {
         setMessage({ type: 'error', text: json.error?.message || 'Error al restablecer' });
       }
