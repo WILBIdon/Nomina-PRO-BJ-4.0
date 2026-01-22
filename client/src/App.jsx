@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import './App.css';
 
 // ========================
@@ -6,6 +6,12 @@ import './App.css';
 // ========================
 // En producción usa rutas relativas, en desarrollo usa localhost:3000
 const API_BASE = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api';
+
+// ========================
+// CONTEXTO GLOBAL DE CONFIGURACIÓN
+// ========================
+// Permite compartir la configuración entre todos los paneles
+const ConfigContext = createContext(null);
 
 // ========================
 // UTILIDADES
@@ -55,60 +61,73 @@ function useApi(endpoint) {
 export default function App() {
   const [activeTab, setActiveTab] = useState('liquidacion');
 
+  // Cargar configuración global que se compartirá con todos los paneles
+  const { data: config, loading: configLoading, error: configError, refetch: refetchConfig } = useApi('/config');
+
+  // Valor del contexto con la config y función de refetch
+  const configContextValue = {
+    config,
+    loading: configLoading,
+    error: configError,
+    refetch: refetchConfig
+  };
+
   return (
-    <div className="app-container">
-      {/* HEADER */}
-      <header className="app-header">
-        <div className="header-content">
-          <div className="header-brand">
-            <span className="header-icon">🧾</span>
-            <h1>Nómina Pro <span className="accent">4.0</span></h1>
+    <ConfigContext.Provider value={configContextValue}>
+      <div className="app-container">
+        {/* HEADER */}
+        <header className="app-header">
+          <div className="header-content">
+            <div className="header-brand">
+              <span className="header-icon">🧾</span>
+              <h1>Nómina Pro <span className="accent">4.0</span></h1>
+            </div>
+            <div className="header-badge">
+              Normativa Colombia 2026
+            </div>
           </div>
-          <div className="header-badge">
-            Normativa Colombia 2026
+        </header>
+
+        {/* CONTENIDO PRINCIPAL */}
+        <main className="main-content">
+          {/* NAVEGACIÓN */}
+          <nav className="side-nav">
+            <NavButton
+              active={activeTab === 'liquidacion'}
+              onClick={() => setActiveTab('liquidacion')}
+              icon="💵"
+              label="Liquidación"
+            />
+            <NavButton
+              active={activeTab === 'empleados'}
+              onClick={() => setActiveTab('empleados')}
+              icon="👥"
+              label="Empleados"
+            />
+            <NavButton
+              active={activeTab === 'historial'}
+              onClick={() => setActiveTab('historial')}
+              icon="📋"
+              label="Historial"
+            />
+            <NavButton
+              active={activeTab === 'configuracion'}
+              onClick={() => setActiveTab('configuracion')}
+              icon="⚙️"
+              label="Configuración"
+            />
+          </nav>
+
+          {/* PANELES */}
+          <div className="content-panel">
+            {activeTab === 'empleados' && <EmpleadosPanel />}
+            {activeTab === 'configuracion' && <ConfigPanel />}
+            {activeTab === 'liquidacion' && <LiquidacionPanel />}
+            {activeTab === 'historial' && <HistorialPanel />}
           </div>
-        </div>
-      </header>
-
-      {/* CONTENIDO PRINCIPAL */}
-      <main className="main-content">
-        {/* NAVEGACIÓN */}
-        <nav className="side-nav">
-          <NavButton
-            active={activeTab === 'liquidacion'}
-            onClick={() => setActiveTab('liquidacion')}
-            icon="💵"
-            label="Liquidación"
-          />
-          <NavButton
-            active={activeTab === 'empleados'}
-            onClick={() => setActiveTab('empleados')}
-            icon="👥"
-            label="Empleados"
-          />
-          <NavButton
-            active={activeTab === 'historial'}
-            onClick={() => setActiveTab('historial')}
-            icon="📋"
-            label="Historial"
-          />
-          <NavButton
-            active={activeTab === 'configuracion'}
-            onClick={() => setActiveTab('configuracion')}
-            icon="⚙️"
-            label="Configuración"
-          />
-        </nav>
-
-        {/* PANELES */}
-        <div className="content-panel">
-          {activeTab === 'empleados' && <EmpleadosPanel />}
-          {activeTab === 'configuracion' && <ConfigPanel />}
-          {activeTab === 'liquidacion' && <LiquidacionPanel />}
-          {activeTab === 'historial' && <HistorialPanel />}
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </ConfigContext.Provider>
   );
 }
 
@@ -303,7 +322,7 @@ function EmpleadosPanel() {
 // PANEL DE CONFIGURACIÓN
 // ========================
 function ConfigPanel() {
-  const { data: config, loading, error, refetch } = useApi('/config');
+  const { config, loading, error, refetch } = useContext(ConfigContext);
   const [formData, setFormData] = useState(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
@@ -423,7 +442,7 @@ function ConfigPanel() {
 // ========================
 function LiquidacionPanel() {
   const { data: empleados, loading: loadingEmp } = useApi('/empleados?activo=true');
-  const { data: config, loading: loadingConfig } = useApi('/config');
+  const { config, loading: loadingConfig } = useContext(ConfigContext);
 
   const [selectedCedula, setSelectedCedula] = useState('');
   const [periodo, setPeriodo] = useState('2022-S19');
