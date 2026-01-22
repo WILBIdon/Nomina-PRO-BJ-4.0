@@ -12,6 +12,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 
 // Rutas
@@ -22,6 +23,46 @@ const nominasRoutes = require('./routes/nominas');
 // Configuración
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// ========================
+// INICIALIZACIÓN DE DATOS
+// ========================
+// Asegurar que existan archivos de datos (para persistencia en Railway Volumes)
+const DATA_DIR = path.join(__dirname, 'data');
+const DEFAULTS_DIR = path.join(__dirname, 'defaults');
+const NOMINAS_DIR = path.join(DATA_DIR, 'nominas');
+
+try {
+    // 1. Crear directorios
+    if (!fs.existsSync(DATA_DIR)) {
+        console.log('[INIT] Creando directorio data...');
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    if (!fs.existsSync(NOMINAS_DIR)) {
+        console.log('[INIT] Creando directorio nominas...');
+        fs.mkdirSync(NOMINAS_DIR, { recursive: true });
+    }
+
+    // 2. Copiar archivos por defecto si no existen
+    const initFile = (filename) => {
+        const destPath = path.join(DATA_DIR, filename);
+        if (!fs.existsSync(destPath)) {
+            const srcPath = path.join(DEFAULTS_DIR, filename);
+            if (fs.existsSync(srcPath)) {
+                console.log(`[INIT] Inicializando ${filename} desde defaults...`);
+                fs.copyFileSync(srcPath, destPath);
+            } else {
+                console.warn(`[WARN] No se encontró default para ${filename}`);
+            }
+        }
+    };
+
+    initFile('config.json');
+    initFile('empleados.json');
+
+} catch (err) {
+    console.error('[FATAL] Error inicializando datos:', err);
+}
 
 // Crear app Express
 const app = express();

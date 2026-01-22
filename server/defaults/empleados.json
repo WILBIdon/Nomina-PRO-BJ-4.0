@@ -1,0 +1,264 @@
+{
+  "empleados": [
+    {
+      "cedula": "43677978",
+      "nombres": "DORA JANETH JIMENEZ DAVILA",
+      "cuenta": "00647134998",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 206459.87
+    },
+    {
+      "cedula": "70051428",
+      "nombres": "GABRIEL ANTONIO VALENCIA CANO",
+      "cuenta": "3127878413",
+      "tipoCuenta": "NEQUI",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 113171.33
+    },
+    {
+      "cedula": "1128480339",
+      "nombres": "ALEJANDRA CUARTAS HIGUITA",
+      "cuenta": "91231873061",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 136459.87
+    },
+    {
+      "cedula": "43208851",
+      "nombres": "BLANCA JOHANNA ARANGO VALENCIA",
+      "cuenta": "00326142824",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 206459.87
+    },
+    {
+      "cedula": "1001233653",
+      "nombres": "ISABELLA CALLE VANEGAS",
+      "cuenta": "91204597842",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 0.0
+    },
+    {
+      "cedula": "43036325",
+      "nombres": "FLOR ALBA ARIAS GIRALDO",
+      "cuenta": "91231879205",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 89838.0
+    },
+    {
+      "cedula": "1017133836",
+      "nombres": "PAULA ANDREA SANCHEZ PELAEZ",
+      "cuenta": "3207996759",
+      "tipoCuenta": "NEQUI",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 58333.33
+    },
+    {
+      "cedula": "1216727372",
+      "nombres": "MARIA CAMILA FRANCO JIMENEZ",
+      "cuenta": "91225923286",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 43126.53
+    },
+    {
+      "cedula": "1216729588",
+      "nombres": "MARIA FERNANDA CUARTAS HIGUITA",
+      "cuenta": "91225316711",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 66459.87
+    },
+    {
+      "cedula": "43594131",
+      "nombres": "ELIANA LORENA MOLINA MAZO",
+      "cuenta": "91231876371",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 43126.53
+    },
+    {
+      "cedula": "1152218056",
+      "nombres": "CATHERIN MUNERA LOPEZ",
+      "cuenta": "91232025838",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 54793.2
+    },
+    {
+      "cedula": "43749232",
+      "nombres": "CRISTINA MARIA VELEZ ARIAS",
+      "cuenta": "00125321691",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 136459.87
+    },
+    {
+      "cedula": "1128439436",
+      "nombres": "CAROLINA MUNERA LOPEZ",
+      "cuenta": "91232044701",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 89838.0
+    },
+    {
+      "cedula": "1147950939",
+      "nombres": "ERIKA JANETH MOSQUERA PALACIOS",
+      "cuenta": "31600008010",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 66504.67
+    },
+    {
+      "cedula": "1128277213",
+      "nombres": "JESSICA DANIELA OROZCO HOLGUIN",
+      "cuenta": "31632087856",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 23333.33
+    },
+    {
+      "cedula": "1146439912",
+      "nombres": "JENIFER ELICENIA FONTECHA",
+      "cuenta": "91231887810",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 66459.87
+    },
+    {
+      "cedula": "1067880867",
+      "nombres": "LEIVYS DE LA ROJAS RAMIREZ",
+      "cuenta": "00633314233",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 0.0
+    },
+    {
+      "cedula": "43607651",
+      "nombres": "GLADIS REYES ROJO",
+      "cuenta": "25532104869",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 43126.53
+    },
+    {
+      "cedula": "43653768",
+      "nombres": "DENIS LORENA HOLGUIN URREGO",
+      "cuenta": "01500025138",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 46666.67
+    },
+    {
+      "cedula": "32353035",
+      "nombres": "SANDRA MILENA HINCAPIE ALZATE",
+      "cuenta": "25532663272",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 43126.53
+    },
+    {
+      "cedula": "1045425452",
+      "nombres": "YANAIR DEL CARMEN MARTINEZ",
+      "cuenta": "01532067860",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 66504.67
+    },
+    {
+      "cedula": "1035419428",
+      "nombres": "VERONICA DIAZ DUQUE",
+      "cuenta": "25333549436",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 23333.33
+    },
+    {
+      "cedula": "1033654234",
+      "nombres": "DANIELA TAMAYO AGUDELO",
+      "cuenta": "00200055225",
+      "tipoCuenta": "AHORROS",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 46666.67
+    },
+    {
+      "cedula": "70106968",
+      "nombres": "CARLOS MARIO ARIAS GIRALDO",
+      "cuenta": "",
+      "tipoCuenta": "EFECTIVO",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 136504.67
+    },
+    {
+      "cedula": "32308238",
+      "nombres": "CRUZANA DE JESUS BARRENECHE MACHADO",
+      "cuenta": "",
+      "tipoCuenta": "EFECTIVO",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 136504.67
+    },
+    {
+      "cedula": "71633449",
+      "nombres": "GUSTAVO ADOLFO VALENCIA CANO",
+      "cuenta": "",
+      "tipoCuenta": "EFECTIVO",
+      "salarioBase": 1000000,
+      "auxTransporte": 117172,
+      "activo": true,
+      "bonificacionHabitual": 138133.33
+    }
+  ]
+}
