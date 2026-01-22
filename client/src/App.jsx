@@ -557,6 +557,31 @@ function ConfigPanel() {
     }
   };
 
+  const handleResetDefaults = async () => {
+    if (!window.confirm('¿Seguro que deseas restablecer los valores a la Normativa Oficial 2026? Se perderán cambios manuales.')) return;
+
+    setSaving(true);
+    setMessage(null);
+
+    try {
+      const res = await fetch(`${API_BASE}/config/reset`, {
+        method: 'POST'
+      });
+      const json = await res.json();
+
+      if (json.success) {
+        setMessage({ type: 'success', text: '✅ Valores restablecidos a Normativa 2026' });
+        refetch(); // Recargar valores en el formulario
+      } else {
+        setMessage({ type: 'error', text: json.error?.message || 'Error al restablecer' });
+      }
+    } catch (err) {
+      setMessage({ type: 'error', text: `Error: ${err.message}` });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) return <div className="loading">Cargando configuración...</div>;
   if (error) return <div className="error-message">Error: {error}</div>;
   if (!formData) return null;
