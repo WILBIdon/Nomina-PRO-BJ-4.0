@@ -92,6 +92,7 @@ export default function App() {
         <main className="main-content">
           {/* NAVEGACIÓN */}
           <nav className="side-nav">
+            <NavSectionTitle title="GESTIÓN" />
             <NavButton
               active={activeTab === 'liquidacion'}
               onClick={() => setActiveTab('liquidacion')}
@@ -104,11 +105,47 @@ export default function App() {
               icon="👥"
               label="Empleados"
             />
+
+            <NavSectionTitle title="LEGAL" />
+            <NavButton
+              active={activeTab === 'prestaciones'}
+              onClick={() => setActiveTab('prestaciones')}
+              icon="🏖️"
+              label="Prestaciones"
+            />
+            <NavButton
+              active={activeTab === 'seguridad_social'}
+              onClick={() => setActiveTab('seguridad_social')}
+              icon="🏥"
+              label="Seguridad Social"
+            />
+            <NavButton
+              active={activeTab === 'parafiscales'}
+              onClick={() => setActiveTab('parafiscales')}
+              icon="⚖️"
+              label="Parafiscales"
+            />
+
+            <NavSectionTitle title="INFORMES" />
+            <NavButton
+              active={activeTab === 'certificados'}
+              onClick={() => setActiveTab('certificados')}
+              icon="📄"
+              label="Certificados"
+            />
+            <NavButton
+              active={activeTab === 'reportes'}
+              onClick={() => setActiveTab('reportes')}
+              icon="📊"
+              label="Reportes Consolidados"
+            />
+
+            <NavSectionTitle title="SISTEMA" />
             <NavButton
               active={activeTab === 'historial'}
               onClick={() => setActiveTab('historial')}
               icon="📋"
-              label="Historial"
+              label="Historial Nómina"
             />
             <NavButton
               active={activeTab === 'configuracion'}
@@ -116,6 +153,7 @@ export default function App() {
               icon="⚙️"
               label="Configuración"
             />
+
             {/* Calculadora Widget */}
             <div className="nav-spacer"></div>
             <SideCalculator />
@@ -124,9 +162,16 @@ export default function App() {
           {/* PANELES */}
           <div className="content-panel">
             {activeTab === 'empleados' && <EmpleadosPanel />}
-            {activeTab === 'configuracion' && <ConfigPanel />}
             {activeTab === 'liquidacion' && <LiquidacionPanel />}
             {activeTab === 'historial' && <HistorialPanel />}
+            {activeTab === 'configuracion' && <ConfigPanel />}
+
+            {/* Paneles Placeholder */}
+            {activeTab === 'prestaciones' && <PlaceholderPanel title="Prestaciones Sociales" icon="🏖️" />}
+            {activeTab === 'seguridad_social' && <PlaceholderPanel title="Seguridad Social (PILA)" icon="🏥" />}
+            {activeTab === 'parafiscales' && <PlaceholderPanel title="Parafiscales" icon="⚖️" />}
+            {activeTab === 'certificados' && <PlaceholderPanel title="Certificados Laborales" icon="📄" />}
+            {activeTab === 'reportes' && <PlaceholderPanel title="Reportes y Estadísticas" icon="📊" />}
           </div>
         </main>
       </div>
@@ -136,6 +181,9 @@ export default function App() {
 
 // ========================
 // BOTÓN DE NAVEGACIÓN
+// ========================
+// ========================
+// COMPONENTES UI
 // ========================
 function NavButton({ active, onClick, icon, label }) {
   return (
@@ -148,6 +196,24 @@ function NavButton({ active, onClick, icon, label }) {
     </button>
   );
 }
+
+function NavSectionTitle({ title }) {
+  return <div className="nav-section-title">{title}</div>;
+}
+
+function PlaceholderPanel({ title, icon }) {
+  return (
+    <div className="panel placeholder-panel">
+      <div className="placeholder-content">
+        <span className="placeholder-icon">{icon}</span>
+        <h2>{title}</h2>
+        <p>Este módulo estará disponible en la próxima actualización.</p>
+        <div className="badge-construction">🚧 En Construcción</div>
+      </div>
+    </div>
+  );
+}
+
 
 // ========================
 // PANEL DE EMPLEADOS
