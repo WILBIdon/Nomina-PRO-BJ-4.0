@@ -602,7 +602,7 @@ function ConfigPanel() {
             value={formData.horaDivisor}
             onChange={e => setFormData({ ...formData, horaDivisor: Number(e.target.value) })}
           />
-          <small>Actual: 240 | Ley 2101: 224 (julio 2026)</small>
+          <small>Actual: {formData.horaDivisor} | Ley 2101: 220 (julio 2026)</small>
         </div>
 
         <div className="form-group">
@@ -641,6 +641,15 @@ function ConfigPanel() {
           className="btn btn-secondary"
         >
           ⬆️ Actualizar Salarios Empleados
+        </button>
+
+        <button
+          className="btn-danger-outline"
+          onClick={handleResetDefaults}
+          disabled={saving}
+          style={{ marginLeft: 'auto' }}
+        >
+          🔄 Restaurar Valores 2026
         </button>
       </div>
 

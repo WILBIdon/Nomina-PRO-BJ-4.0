@@ -120,6 +120,33 @@ router.put('/', asyncHandler(async (req, res) => {
 }));
 
 /**
+ * POST /api/config/reset
+ * Restablecer configuración a valores por defecto
+ */
+router.post('/reset', asyncHandler(async (req, res) => {
+    const DEFAULTS_PATH = path.join(__dirname, '../defaults/config.json');
+    let configDefault;
+
+    try {
+        const data = await fs.readFile(DEFAULTS_PATH, 'utf-8');
+        configDefault = JSON.parse(data);
+    } catch (error) {
+        throw createError('FILE_READ_ERROR', `Error leyendo configuración por defecto: ${error.message}`);
+    }
+
+    configDefault.updatedAt = new Date().toISOString();
+    await guardarConfig(configDefault);
+
+    console.log(`[INFO] Configuración restablecida a valores por defecto`);
+
+    res.json({
+        success: true,
+        message: 'Configuración restablecida exitosamente',
+        data: configDefault
+    });
+}));
+
+/**
  * GET /api/config/formulas
  * Obtener fórmulas de cálculo con valores actuales
  */
