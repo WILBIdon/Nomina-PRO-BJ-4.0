@@ -254,6 +254,15 @@ router.post('/actualizar-minimo', asyncHandler(async (req, res) => {
     if (contador > 0) {
         await guardarEmpleados(data);
         console.log(`[INFO] Se actualizaron ${contador} empleados al nuevo mínimo: ${minimo}`);
+    } else {
+        return res.json({
+            success: true,
+            message: `Ningún empleado tiene un salario inferior a ${minimo}. No se realizaron cambios.`,
+            data: {
+                empleadosActualizados: 0,
+                nuevoMinimo: minimo
+            }
+        });
     }
 
     res.json({
