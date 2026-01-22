@@ -25,7 +25,9 @@
 }
 
 /* Reset */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -481,7 +483,8 @@ tfoot td {
   letter-spacing: 0.02em;
 }
 
-.badge-success, .badge-aprobada {
+.badge-success,
+.badge-aprobada {
   background: #dcfce7;
   color: #166534;
 }
@@ -600,8 +603,15 @@ tfoot td {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .select-empleado {
@@ -626,7 +636,7 @@ tfoot td {
 
 .desprendible-section h2 {
   color: white;
-  border-color: rgba(255,255,255,0.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .desprendible {
@@ -637,7 +647,7 @@ tfoot td {
   display: flex;
   justify-content: space-between;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 1rem;
 }
 
@@ -678,7 +688,7 @@ tfoot td {
   align-items: flex-end;
   padding-top: 1rem;
   margin-top: 0.75rem;
-  border-top: 1px solid rgba(255,255,255,0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .desprendible-total span:first-child {
@@ -697,7 +707,7 @@ tfoot td {
 .desprendible-detail {
   margin-top: 1rem;
   padding-top: 0.75rem;
-  border-top: 1px dashed rgba(255,255,255,0.1);
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
   font-size: 0.8rem;
 }
 
@@ -759,4 +769,11 @@ tfoot td {
 .modal-body {
   padding: 1.5rem;
   overflow-y: auto;
+}
+
+.actions-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
 }

@@ -430,9 +430,39 @@ function ConfigPanel() {
         <div className={`message ${message.type}`}>{message.text}</div>
       )}
 
-      <button onClick={handleSave} disabled={saving} className="btn btn-primary">
-        {saving ? '⏳ Guardando...' : '💾 Guardar Parámetros'}
-      </button>
+      <div className="actions-row">
+        <button onClick={handleSave} disabled={saving} className="btn btn-primary">
+          {saving ? '⏳ Guardando...' : '💾 Guardar Parámetros'}
+        </button>
+
+        <button
+          onClick={async () => {
+            if (!confirm(`¿Actualizar el salario base de todos los empleados que ganen menos de ${formatCurrency(formData.smmlv)}?`)) return;
+            setSaving(true);
+            try {
+              const res = await fetch(`${API_BASE}/empleados/actualizar-minimo`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nuevoSalarioMinimo: formData.smmlv })
+              });
+              const json = await res.json();
+              if (json.success) {
+                alert(`✅ ${json.message}`);
+              } else {
+                alert(`❌ ${json.error?.message}`);
+              }
+            } catch (err) {
+              alert(`❌ Error: ${err.message}`);
+            } finally {
+              setSaving(false);
+            }
+          }}
+          disabled={saving}
+          className="btn btn-secondary"
+        >
+          ⬆️ Actualizar Salarios Empleados
+        </button>
+      </div>
     </div>
   );
 }

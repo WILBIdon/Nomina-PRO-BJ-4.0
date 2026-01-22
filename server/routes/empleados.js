@@ -223,4 +223,47 @@ router.delete('/:cedula', asyncHandler(async (req, res) => {
     }
 }));
 
+/**
+ * POST /api/empleados/actualizar-minimo
+ * Actualizar salario base de empleados que ganan menos del nuevo mínimo
+ */
+router.post('/actualizar-minimo', asyncHandler(async (req, res) => {
+    const { nuevoSalarioMinimo } = req.body;
+    const minimo = Number(nuevoSalarioMinimo);
+
+    if (!minimo || minimo <= 0) {
+        throw createError('VALIDATION_ERROR', 'El nuevo salario mínimo debe ser un número positivo');
+    }
+
+    const data = await leerEmpleados();
+    let contador = 0;
+
+    // Actualizar empleados activos que ganen menos del nuevo mínimo
+    data.empleados = data.empleados.map(emp => {
+        if (emp.activo !== false && emp.salarioBase < minimo) {
+            contador++;
+            return {
+                ...emp,
+                salarioBase: minimo,
+                updatedAt: new Date().toISOString()
+            };
+        }
+        return emp;
+    });
+
+    if (contador > 0) {
+        await guardarEmpleados(data);
+        console.log(`[INFO] Se actualizaron ${contador} empleados al nuevo mínimo: ${minimo}`);
+    }
+
+    res.json({
+        success: true,
+        message: `Se actualizaron ${contador} empleados al nuevo salario mínimo.`,
+        data: {
+            empleadosActualizados: contador,
+            nuevoMinimo: minimo
+        }
+    });
+}));
+
 module.exports = router;
