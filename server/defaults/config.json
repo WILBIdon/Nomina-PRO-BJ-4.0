@@ -3,15 +3,15 @@
   "auxTransporte": 249095,
   "saludPct": 4,
   "pensionPct": 4,
-  "horaDivisor": 240,
+  "horaDivisor": 220,
   "factores": {
     "horaExtraDiurna": 1.25,
     "horaExtraNocturna": 1.75,
     "recargoNocturno": 1.35,
-    "horaExtraDomDiurna": 2.00,
-    "horaExtraDomNocturna": 2.50,
-    "dominicalSinComp": 1.75,
-    "dominicalConComp": 0.75
+    "horaExtraDomDiurna": 2.05,
+    "horaExtraDomNocturna": 2.55,
+    "dominicalSinComp": 1.80,
+    "dominicalConComp": 0.80
   },
   "year": 2026,
   "festivos": [
