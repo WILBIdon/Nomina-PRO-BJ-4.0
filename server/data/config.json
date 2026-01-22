@@ -1,0 +1,18 @@
+{
+  "smmlv": 1000000,
+  "auxTransporte": 117172,
+  "saludPct": 4,
+  "pensionPct": 4,
+  "horaDivisor": 240,
+  "factores": {
+    "horaExtraDiurna": 1.25,
+    "horaExtraNocturna": 1.75,
+    "recargoNocturno": 1.35,
+    "horaExtraDomDiurna": 2.00,
+    "horaExtraDomNocturna": 2.50,
+    "dominicalSinComp": 1.75,
+    "dominicalConComp": 0.75
+  },
+  "year": 2026,
+  "updatedAt": "2026-01-21"
+}
